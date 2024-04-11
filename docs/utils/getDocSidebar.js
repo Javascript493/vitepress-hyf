@@ -3,6 +3,7 @@ const _path = require('path')
 //正则
 const mdRegex = /[\u4e00-\u9fa5\w]+\.md$/
 const suffix = /\.[^.]*$/ // 匹配后缀
+const excludeDirectory = ['public']
 
 const app = function () {
   // 拼接路径
@@ -34,7 +35,7 @@ const app = function () {
   }
 
   const docFilePth = getPath(__dirname, '../src') //文档根目录
-  const sidebarGroup = getFileList(docFilePth)
+  const sidebarGroup = getFileList(docFilePth).filter(name => !excludeDirectory.includes(name))
   const sidebar = {
     '/': [
       {
@@ -54,7 +55,7 @@ const app = function () {
       const mdFiles = files && files.filter(i => mdRegex.test(i)) // 文档
       const sidebarItem = {
         text: name1 || name,
-        collapsible: true,
+        collapsed: true,
         items: [] // text， link
       }
 

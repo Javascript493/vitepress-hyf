@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+const excludeDirectory = ['public']
 const suffix = /\.[^.]*$/ // 匹配后缀
 const mdRegex = /[\u4e00-\u9fa5\w]+\.md$/
 const emoji = '🐶'
@@ -9,7 +10,7 @@ const nav = [
 const docFilePth = path.resolve(__dirname, '../src')
 const files = fs.readdirSync(docFilePth).filter(name => {
   const stat = fs.statSync(path.resolve(docFilePth, name)) || {}
-  return stat.isDirectory()
+  return !excludeDirectory.includes(name) && stat.isDirectory()
 })
 files.forEach(name => {
   const mds = fs.readdirSync(path.resolve(docFilePth, name)).filter(name => mdRegex.test(name)) || []
